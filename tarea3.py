@@ -5,6 +5,8 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.integrate import ode
+from mpl_toolkits.mplot3d import Axes3D
 
 mu=1.657 #definimos el mu segun el rut
 
@@ -49,13 +51,57 @@ espacio=RK3(0,0.1,0,20*np.pi) #Damos valores a la funcion de condiciones inicial
 plt.plot(espacio[0],espacio[1]) #ploteamos trayectoria
 plt.xlabel('s')
 plt.ylabel('y')
-plt.title('Trayectoria y(s)')
+plt.title('Trayectoria y(s) para el oscilador de van der Pool')
 plt.savefig('trayectoria.png')
 #plt.show()
 plt.figure()
-plt.plot(espacio[1],espacio[2]) #ploteamos espacio de fase 
+plt.plot(espacio[1],espacio[2]) #ploteamos espacio de fase
 plt.xlabel('y')
 plt.ylabel('dy/ds')
-plt.title('Trayectoria en el espacio de fase (y,dy/ds)')
+plt.title('Trayectoria en el espacio de fase (y,dy/ds) para el oscilador de van der Pool')
 plt.savefig('espacio_fase.png')
+#plt.show()
+
+#Pregunta 2
+
+sigma=10.
+beta=8/3.
+rho=28.
+
+def sistema(t,w,sigma=sigma,beta=beta,rho=rho):
+    x, y, z =w
+    return [sigma*(y-x), x*(rho-z)-y, x*y-beta*z]
+
+t0=0
+x0=10.
+y0=20.
+z0=30.
+w0= x0, y0, z0
+tf=40
+
+r=ode(sistema)
+r.set_integrator('dopri5')
+r.set_initial_value(w0)
+
+t=np.linspace(t0,tf,5000)
+
+x=np.ones(len(t))
+y=np.ones(len(t))
+z=np.ones(len(t))
+
+for i in range(0,len(t)):
+    r.integrate(t[i])
+    x[i], y[i], z[i] = r.y
+
+fig=plt.figure()
+fig.clf()
+ax = fig.add_subplot(111, projection='3d')
+ax.set_aspect('equal')
+ax.plot(x, y, z)
+ax.set_xlabel('x(t)')
+ax.set_ylabel('y(t)')
+ax.set_zlabel('z(t)')
+plt.title('Atractor de Lorentz')
+plt.savefig('Atractor_lorentz.png')
+
 plt.show()
