@@ -46,21 +46,37 @@ def RK3(s0,y0,v0,sf): #funcion para resolver la edo numericamente con range-kuta
 
     return s,y,v #devolvemos el vector s y los resultados correspondientes de y y v
 
-espacio=RK3(0,0.1,0,20*np.pi) #Damos valores a la funcion de condiciones iniciales y valor final de s, que es 20pi
+espacio=RK3(0,0.1,0,20*np.pi) #Damos valores a la funcion de condiciones iniciales dadas (dy/ds=0 y=0.1) y valor final de s, que es 20pi
 
 plt.plot(espacio[0],espacio[1]) #ploteamos trayectoria
 plt.xlabel('s')
 plt.ylabel('y')
 plt.title('Trayectoria y(s) para el oscilador de van der Pool')
 plt.savefig('trayectoria.png')
-#plt.show()
+
 plt.figure()
 plt.plot(espacio[1],espacio[2]) #ploteamos espacio de fase
 plt.xlabel('y')
 plt.ylabel('dy/ds')
 plt.title('Trayectoria en el espacio de fase (y,dy/ds) para el oscilador de van der Pool')
 plt.savefig('espacio_fase.png')
-#plt.show()
+
+#Ahora ploteamos con las otras condiciones iniciales dadas: dy/ds=0 y=4.0
+
+espacio=RK3(0,4.0,0,20*np.pi) #Damos valores a la funcion de condiciones iniciales y valor final de s, que es 20pi
+plt.figure()
+plt.plot(espacio[0],espacio[1]) #ploteamos trayectoria 2
+plt.xlabel('s')
+plt.ylabel('y')
+plt.title('Trayectoria y(s) para el oscilador de van der Pool')
+plt.savefig('trayectoria2.png')
+
+plt.figure()
+plt.plot(espacio[1],espacio[2]) #ploteamos espacio de fase 2
+plt.xlabel('y')
+plt.ylabel('dy/ds')
+plt.title('Trayectoria en el espacio de fase (y,dy/ds) para el oscilador de van der Pool')
+plt.savefig('espacio_fase2.png')
 
 #Pregunta 2
 
