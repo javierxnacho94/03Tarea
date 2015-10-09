@@ -64,40 +64,40 @@ plt.savefig('espacio_fase.png')
 
 #Pregunta 2
 
-sigma=10.
+sigma=10. #guardamos los parametros dados
 beta=8/3.
 rho=28.
 
-def sistema(t,w,sigma=sigma,beta=beta,rho=rho):
+def sistema(t,w,sigma=sigma,beta=beta,rho=rho): #definimos el sistema de ecuaciones de la EDO
     x, y, z =w
     return [sigma*(y-x), x*(rho-z)-y, x*y-beta*z]
 
-t0=0
+t0=0 #damos condiciones iniciales
 x0=10.
 y0=20.
 z0=30.
 w0= x0, y0, z0
-tf=40
+tf=40 #tiempo final de integracion
 
-r=ode(sistema)
-r.set_integrator('dopri5')
-r.set_initial_value(w0)
+r=ode(sistema) #usamos ode para resolver la EDO
+r.set_integrator('dopri5') #con 'dopri5' se resuelve con el metodo de range-kuta 4
+r.set_initial_value(w0) #guardamos los valores iniciales
 
-t=np.linspace(t0,tf,5000)
+t=np.linspace(t0,tf,5000) #creamos un vector de tiempos de integracion con una precision de 5000 valores
 
-x=np.ones(len(t))
+x=np.ones(len(t)) #creamos vectores para ir guardando la integracion
 y=np.ones(len(t))
 z=np.ones(len(t))
 
-for i in range(0,len(t)):
+for i in range(0,len(t)): #se inicia la integracion
     r.integrate(t[i])
     x[i], y[i], z[i] = r.y
 
 fig=plt.figure()
 fig.clf()
-ax = fig.add_subplot(111, projection='3d')
+ax = fig.add_subplot(111, projection='3d') #se prepara para plotear en 3D
 ax.set_aspect('equal')
-ax.plot(x, y, z)
+ax.plot(x, y, z)          #Se plotean los valores calculados con ode
 ax.set_xlabel('x(t)')
 ax.set_ylabel('y(t)')
 ax.set_zlabel('z(t)')
